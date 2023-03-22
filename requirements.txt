@@ -1,6 +1,6 @@
 #### Bot lib ####
-python-telegram-bot>=13.0.0
-telethon
+python-telegram-bot==13.13
+telethon==1.25.4
 #################
 aiohttp>=2.2.5
 bleach
@@ -15,7 +15,7 @@ pydantic
 python-rapidjson
 PyYAML
 requests>=2.20.0
-sqlalchemy
+SQLAlchemy~=1.0
 tldextract
 wikipedia
 covid
