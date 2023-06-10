@@ -62,10 +62,18 @@ def _selective_escape(to_parse: str) -> str:
     return to_parse
 
 
+def get_emoji_regexp():
+    # Sort emoji by length to make sure multi-character emojis are
+    # matched first
+    emojis = sorted(emoji.EMOJI_DATA, key=len, reverse=True)
+    pattern = '(' + '|'.join(re.escape(u) for u in emojis) + ')'
+    return re.compile(pattern)
+
+
 # This is a fun one.
 def _calc_emoji_offset(to_calc) -> int:
     # Get all emoji in text.
-    emoticons = emoji.get_emoji_regexp().finditer(to_calc)
+    emoticons = get_emoji_regexp().finditer(to_calc)
     # Check the utf16 length of the emoji to determine the offset it caused.
     # Normal, 1 character emoji don't affect; hence sub 1.
     # special, eg with two emoji characters (eg face, and skin col) will have length 2, so by subbing one we
@@ -307,5 +315,4 @@ def markdown_to_html(text):
 
 def remove_emoji(inputString):
     """ Remove emojis and other non-safe characters from string """
-    return re.sub("\s\s+", " ",
-                  emoji.get_emoji_regexp().sub(u' ', inputString))
+    return re.sub("\s\s+", " ", get_emoji_regexp().sub(u' ', inputString))
